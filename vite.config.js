@@ -14,18 +14,20 @@ export default defineConfig({
       }
     }
   },
-  // Add this for production build optimization
   build: {
     outDir: 'dist',
     sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'chart-vendor': ['recharts'],
           'utils-vendor': ['date-fns', 'axios']
         }
       }
     }
-  }
+  },
+  // This ensures proper handling of SPA routes
+  base: './',
+  publicDir: 'public'
 })
