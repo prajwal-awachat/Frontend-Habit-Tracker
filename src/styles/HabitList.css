@@ -1,0 +1,316 @@
+.habit-list {
+  width: 100%;
+}
+
+.habit-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.habit-list-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.add-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.add-habit-form {
+  background: var(--background);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.habit-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  margin-bottom: 15px;
+  transition: all 0.2s;
+}
+
+.habit-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.icon-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.icon-button {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.icon-button:hover {
+  border-color: var(--primary-color);
+}
+
+.icon-button.selected {
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.submit-button {
+  background: var(--text-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.submit-button:hover {
+  background: var(--text-secondary);
+}
+
+.habits-container {
+  overflow-x: auto;
+}
+
+.habits-grid {
+  min-width: 800px;
+}
+
+/* REMOVED the hardcoded grid-template-columns from these classes */
+.grid-header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.habit-name-header {
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 10px;
+  min-width: 200px; /* Add min-width instead of fixed grid column */
+}
+
+.day-header {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 10px 0;
+  min-width: 32px; /* Add min-width for consistency */
+}
+
+.day-header.current-day {
+  color: var(--primary-color);
+  font-weight: 600;
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+}
+
+/* REMOVED the hardcoded grid-template-columns from these classes */
+.habit-row {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+  align-items: center;
+}
+
+.habit-row:hover {
+  background: var(--background);
+}
+
+.habit-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+  min-width: 200px; /* Add min-width instead of fixed grid column */
+}
+
+.habit-icon {
+  font-size: 1.5rem;
+}
+
+.habit-title {
+  flex: 1;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.streak-badge {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.checkbox {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  min-width: 32px; /* Add min-width for consistency */
+}
+
+.checkbox:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.checkbox.checked {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.checkbox.today {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+@media (max-width: 768px) {
+  .habits-container {
+    font-size: 0.9rem;
+  }
+  
+  .checkbox {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .habit-info {
+    gap: 8px;
+  }
+}
+
+/* Delete button styles */
+.delete-habit-button {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.delete-habit-button:hover {
+  opacity: 1;
+  background: rgba(220, 38, 38, 0.1);
+  transform: scale(1.1);
+}
+
+/* Delete confirmation modal styles */
+.delete-confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.delete-confirmation-content {
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+}
+
+.delete-confirmation-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.delete-confirm-button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  flex: 1;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-confirm-button:hover {
+  background: #b91c1c;
+}
+
+.delete-cancel-button {
+  background: var(--border-light);
+  color: var(--text-primary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  flex: 1;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-cancel-button:hover {
+  background: var(--border);
+}

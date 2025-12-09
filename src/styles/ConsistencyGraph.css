@@ -1,0 +1,110 @@
+.consistency-graph {
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.graph-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.graph-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.average-badge {
+  background: linear-gradient(135deg, #10B981, #34D399);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.average-label {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.average-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.graph-container {
+  height: 280px;
+}
+
+.custom-tooltip {
+  background: white;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.custom-tooltip .label {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.custom-tooltip .completion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.tooltip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .graph-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .average-badge {
+    align-self: flex-start;
+  }
+}
+
+/* Add to ConsistencyGraph.css */
+.graph-container .recharts-area-area {
+  animation: fillAnimation 1.5s ease-in-out;
+}
+
+@keyframes fillAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
