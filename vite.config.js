@@ -13,5 +13,19 @@ export default defineConfig({
         changeOrigin: true,
       }
     }
+  },
+  // Add this for production build optimization
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'chart-vendor': ['recharts'],
+          'utils-vendor': ['date-fns', 'axios']
+        }
+      }
+    }
   }
 })
