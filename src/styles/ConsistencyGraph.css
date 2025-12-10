@@ -5,6 +5,7 @@
   padding: 24px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border);
+  overflow: hidden; /* Prevent overflow from the main container */
 }
 
 .graph-header {
@@ -50,6 +51,16 @@
 
 .graph-container {
   height: 280px;
+  /* Add horizontal scroll for mobile */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Make the chart inside scrollable */
+.graph-container .recharts-wrapper {
+  min-width: 600px; /* Minimum width to ensure chart doesn't get too squished */
+  height: 100%;
 }
 
 .custom-tooltip {
@@ -92,6 +103,44 @@
   
   .average-badge {
     align-self: flex-start;
+  }
+  
+  /* Adjust padding for mobile */
+  .consistency-graph {
+    padding: 20px 16px;
+  }
+  
+  /* Add visual hint for scrolling */
+  .graph-container {
+    position: relative;
+  }
+  
+  .graph-container::after {
+    content: '← scroll →';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--surface);
+    padding: 4px 8px;
+    border-radius: 12px;
+    opacity: 0.8;
+    z-index: 10;
+  }
+}
+
+/* Optional: Add fade effect on edges for better UX */
+@media (max-width: 768px) {
+  .graph-container {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+    mask-mode: alpha;
   }
 }
 
