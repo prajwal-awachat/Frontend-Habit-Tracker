@@ -20,8 +20,8 @@ const HabitList = ({ habits, toggleHabitCompletion, currentDate, addHabit, delet
   const daysInMonth = Array.from({ length: getDaysInMonth(currentDate) }, (_, i) => i + 1);
   const currentDay = currentDate.getDate();
 
-  // Dynamic grid template columns
-  const gridTemplateColumns = `200px repeat(${daysInMonth.length}, 1fr)`;
+  // Dynamic grid template columns - increased first column width
+  const gridTemplateColumns = `250px repeat(${daysInMonth.length}, 1fr)`;
 
   const handleAddHabit = (e) => {
     e.preventDefault();
@@ -92,7 +92,6 @@ const HabitList = ({ habits, toggleHabitCompletion, currentDate, addHabit, delet
 
       <div className="habits-container">
         <div className="habits-grid">
-          {/* Apply dynamic grid template columns */}
           <div 
             className="grid-header" 
             style={{ gridTemplateColumns: gridTemplateColumns }}
@@ -115,7 +114,9 @@ const HabitList = ({ habits, toggleHabitCompletion, currentDate, addHabit, delet
                 <span className="habit-icon" style={{ color: habit.color }}>
                   {habit.icon}
                 </span>
-                <span className="habit-title">{habit.name}</span>
+                <span className="habit-title" title={habit.name}>
+                  {habit.name}
+                </span>
                 <span className="streak-badge">{habit.streak || 0} days</span>
                 <button
                   onClick={() => handleDeleteClick(habit._id, habit.name)}

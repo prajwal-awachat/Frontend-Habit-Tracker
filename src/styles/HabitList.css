@@ -111,7 +111,6 @@
   min-width: 800px;
 }
 
-/* REMOVED the hardcoded grid-template-columns from these classes */
 .grid-header {
   display: grid;
   gap: 8px;
@@ -124,7 +123,7 @@
   font-weight: 600;
   color: var(--text-secondary);
   padding: 10px;
-  min-width: 200px; /* Add min-width instead of fixed grid column */
+  min-width: 200px; /* Changed to min-width */
 }
 
 .day-header {
@@ -132,7 +131,7 @@
   font-size: 0.85rem;
   color: var(--text-secondary);
   padding: 10px 0;
-  min-width: 32px; /* Add min-width for consistency */
+  min-width: 32px;
 }
 
 .day-header.current-day {
@@ -142,7 +141,6 @@
   border-radius: var(--radius-sm);
 }
 
-/* REMOVED the hardcoded grid-template-columns from these classes */
 .habit-row {
   display: grid;
   gap: 8px;
@@ -155,22 +153,30 @@
   background: var(--background);
 }
 
+/* FIXED: Habit info section with better layout */
 .habit-info {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto; /* Icon, Title, Streak, Delete */
   align-items: center;
   gap: 12px;
   padding: 0 10px;
-  min-width: 200px; /* Add min-width instead of fixed grid column */
+  min-width: 250px; /* Increased to prevent overlap */
 }
 
 .habit-icon {
   font-size: 1.5rem;
+  width: 32px; /* Fixed width */
+  flex-shrink: 0;
 }
 
+/* FIXED: Habit title with text truncation */
 .habit-title {
-  flex: 1;
   font-weight: 500;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* Important for truncation */
 }
 
 .streak-badge {
@@ -180,6 +186,33 @@
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
+  white-space: nowrap; /* Prevent line break */
+  flex-shrink: 0;
+}
+
+/* FIXED: Delete button with proper spacing */
+.delete-habit-button {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.delete-habit-button:hover {
+  opacity: 1;
+  background: rgba(220, 38, 38, 0.1);
+  transform: scale(1.1);
 }
 
 .checkbox {
@@ -196,7 +229,7 @@
   margin: 0 auto;
   font-size: 1.1rem;
   color: var(--primary-color);
-  min-width: 32px; /* Add min-width for consistency */
+  min-width: 32px;
 }
 
 .checkbox:hover {
@@ -226,32 +259,30 @@
   }
   
   .habit-info {
+    grid-template-columns: auto 1fr auto auto;
     gap: 8px;
+    min-width: 200px; /* Reduced for mobile */
   }
-}
-
-/* Delete button styles */
-.delete-habit-button {
-  background: none;
-  border: none;
-  color: #dc2626;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 1rem;
-  opacity: 0.7;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-}
-
-.delete-habit-button:hover {
-  opacity: 1;
-  background: rgba(220, 38, 38, 0.1);
-  transform: scale(1.1);
+  
+  .habit-icon {
+    font-size: 1.3rem;
+    width: 28px;
+  }
+  
+  .habit-title {
+    font-size: 0.9rem;
+  }
+  
+  .streak-badge {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+  
+  .delete-habit-button {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
 }
 
 /* Delete confirmation modal styles */
