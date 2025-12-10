@@ -28,10 +28,17 @@ const Login = ({ onLogin }) => {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await api.post(endpoint, formData);
       
-      localStorage.setItem('token', response.data.token || response.headers['set-cookie']);
+      // Store token in localStorage for Authorization header
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      
+      // Store user data
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
+      // Call onLogin callback
       onLogin(response.data.user);
+      
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
     } finally {
@@ -60,6 +67,7 @@ const Login = ({ onLogin }) => {
                 onChange={handleChange}
                 required
                 minLength="3"
+                placeholder="Choose a username"
               />
             </div>
           )}
@@ -72,6 +80,7 @@ const Login = ({ onLogin }) => {
               value={formData.email}
               onChange={handleChange}
               required
+              placeholder="Enter your email"
             />
           </div>
 
@@ -84,6 +93,7 @@ const Login = ({ onLogin }) => {
               onChange={handleChange}
               required
               minLength="6"
+              placeholder="Enter your password"
             />
           </div>
 
@@ -96,7 +106,10 @@ const Login = ({ onLogin }) => {
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             type="button"
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError('');
+            }}
             className="switch-button"
           >
             {isLogin ? 'Sign Up' : 'Sign In'}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import CalendarView from './components/CalendarView';
 import HabitList from './components/HabitList';
 import ProgressBars from './components/ProgressBars';
@@ -10,10 +10,11 @@ import Login from './components/Login';
 import api from './api/axios';
 import './App.css';
 
-// Create a ProtectedRoute component
+// ProtectedRoute Component
 const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkAuth();
@@ -21,14 +22,14 @@ const ProtectedRoute = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const response = await api.get('/api/auth/me');
-        setUser(response.data.user);
-      }
+      const response = await api.get('/api/auth/me');
+      setUser(response.data.user);
     } catch (err) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      // Clear invalid tokens
+      if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
     } finally {
       setLoading(false);
     }
@@ -43,50 +44,40 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/login" replace />;
 };
 
-// Main Dashboard Component
+// Dashboard Component
 const Dashboard = () => {
   const [habits, setHabits] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    checkAuth();
+    fetchUserAndHabits();
   }, []);
 
-  const checkAuth = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const response = await api.get('/api/auth/me');
-        setUser(response.data.user);
-        fetchHabits();
-      } else {
-        setLoading(false);
-      }
-    } catch (err) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      setLoading(false);
-    }
-  };
-
-  const fetchHabits = async () => {
+  const fetchUserAndHabits = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/api/habits');
-      setHabits(response.data);
+      
+      // Fetch user data
+      const userResponse = await api.get('/api/auth/me');
+      setUser(userResponse.data.user);
+      
+      // Fetch habits
+      const habitsResponse = await api.get('/api/habits');
+      setHabits(habitsResponse.data);
       setError(null);
     } catch (err) {
-      console.error('Error fetching habits:', err);
+      console.error('Error fetching data:', err);
       if (err.response?.status === 401) {
         handleLogout();
       } else {
-        setError('Failed to load habits.');
+        setError('Failed to load data. Please try again.');
       }
     } finally {
       setLoading(false);
@@ -119,11 +110,13 @@ const Dashboard = () => {
     try {
       const response = await api.post('/api/habits', habitData);
       setHabits([...habits, response.data]);
+      return response.data;
     } catch (err) {
       console.error('Error adding habit:', err);
       if (err.response?.status === 401) {
         handleLogout();
       }
+      throw err;
     }
   };
 
@@ -147,7 +140,7 @@ const Dashboard = () => {
     }
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   const calculateStreak = (completed) => {
@@ -171,7 +164,7 @@ const Dashboard = () => {
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>
-        <p>Loading habits...</p>
+        <p>Loading dashboard...</p>
       </div>
     );
   }
@@ -246,15 +239,28 @@ const Dashboard = () => {
   );
 };
 
-// Main App Component with Router
+// Main App Component
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = (userData) => {
+    setIsAuthenticated(true);
+    // Navigation is handled by the ProtectedRoute
+  };
+
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login onLogin={(userData) => {
-          localStorage.setItem('user', JSON.stringify(userData));
-          window.location.href = '/';
-        }} />} />
+        <Route 
+          path="/login" 
+          element={
+            isAuthenticated ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          } 
+        />
         <Route 
           path="/" 
           element={
